@@ -53,6 +53,7 @@ fn main() {
                 let title = read_input("Enter task title:");
                 add_task(title);
             },
+            "5" => return,
             _ => println!("Please enter a valid choice")
         }
 
