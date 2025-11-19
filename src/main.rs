@@ -47,6 +47,20 @@ fn save_tasks(tasks: &Vec<Task>) {
     serde_json::to_writer_pretty(file, tasks).expect("Unable to write data");
 }
 
+fn delete_task(id:u32){
+    let mut tasks = load_tasks();
+    let original_len = tasks.len();
+
+    tasks.retain(|t|t.id != id);
+    if tasks.len() < original_len {
+        save_tasks(&tasks);
+        println!("Task with id {id} deleted successfully!!!");
+    }else {
+        println!("No task found with id {id}");
+    }
+
+}
+
 fn read_input(prompt: &str) -> String {
     println!("{prompt}");
     let mut input = String::new();
@@ -63,6 +77,10 @@ fn main() {
             "1" => {
                 let title = read_input("Enter task title:");
                 add_task(title);
+            }
+            "4" =>{
+                let id = read_input("Enter the id of the task to be deleted:").parse().unwrap_or(0);
+                delete_task(id);
             }
             "5" => return,
             _ => println!("Please enter a valid choice"),

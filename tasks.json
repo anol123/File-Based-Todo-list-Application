@@ -8,10 +8,5 @@
     "id": 2,
     "title": "learn DevOps",
     "done": false
-  },
-  {
-    "id": 3,
-    "title": "watch movie",
-    "done": false
   }
 ]
