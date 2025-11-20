@@ -61,6 +61,37 @@ fn delete_task(id:u32){
 
 }
 
+fn list_tasks(){
+    let tasks = load_tasks();
+    println!("\n📋 To-Do List");
+    for task in tasks{
+        let status = if task.done{"✔ Done"} else{"❌ Pending"};
+        println!("{}: {} [{}]",task.id, task.title, status);
+    }
+}
+
+fn mark_as_done(id:u32){
+    // let mut tasks = load_tasks();
+    // if id>(tasks.len()) as u32 || id<1 {
+    //     println!("Task with id {id} does not exist");
+    //     return;
+    // }
+    // tasks[(id-1) as usize].done=true;
+    // save_tasks(&tasks);
+    // println!("Task with id {id} is marked done ✔");
+
+    //another logic
+    let mut tasks = load_tasks();
+
+    if let Some(x) = tasks.iter_mut().find(|t|t.id==id){
+        x.done =true;
+        save_tasks(&tasks);
+        println!("Task with id {id} is marked done ✔");
+    }else{
+        println!("Task with id {id} not found!");
+    }
+}
+
 fn read_input(prompt: &str) -> String {
     println!("{prompt}");
     let mut input = String::new();
@@ -77,6 +108,14 @@ fn main() {
             "1" => {
                 let title = read_input("Enter task title:");
                 add_task(title);
+            }
+            "2" => {
+                list_tasks();
+            }
+            "3" => {
+                let id = read_input("Enter the task id :").parse().unwrap_or(0);
+                
+                mark_as_done(id);
             }
             "4" =>{
                 let id = read_input("Enter the id of the task to be deleted:").parse().unwrap_or(0);
